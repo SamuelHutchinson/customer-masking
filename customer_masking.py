@@ -6,6 +6,7 @@ import time
 
 def get_customers(input_file):
     """Takes in an input file and returns a masked dataset"""
+
     inputs = Inputs()
     csv_input = inputs.get_input("CSV", input_file)
     csv_input.get()
@@ -20,12 +21,6 @@ def get_customers(input_file):
     mask = 'X'
     mask_data(csv_input.data, rules, mask)
     return csv_input
-
-def csv_reader(input_file):
-    for line in open(input_file, 'r'):
-        if not line.isspace():
-            result = line.strip()
-            yield result.split(',')
 
 def get_column(column, column_type):
     """Provides a column object to perform masking operations on"""
@@ -42,13 +37,13 @@ def mask_data(record, rules, mask):
             data.mask(mask=mask, rules=rules)
 
 def output(table, output):
-    """Serialises the data back into a format specified by the user e.g. CSV or standard output"""
+    """Serialises the data back into a format specified by the user e.g. CSV or standard output (stdout)"""
 
     serialise_customer = Outputs()
     csv = serialise_customer.get_serialiser("CSV", data=table, output_file=output)
-    csv.serialise()
+    csv.write()
     stdout = serialise_customer.get_serialiser("STDOUT", data=table)
-    stdout.serialise("Name", "Billing") # Column values to be printed to stdout
+    stdout.write("Name", "Billing") # Column values to be printed to stdout
 
 if __name__ == "__main__":
     input_file = sys.argv[1]
@@ -57,7 +52,5 @@ if __name__ == "__main__":
     if input_file.lower().endswith(('csv')): # If file format is of csv
         customer_data = get_customers(input_file)
         output(customer_data, output_file)
-        t2 = time.time()
-        print(t2 - t1)
     else:
         raise ValueError(f"Invalid file input: {input_file}. Input file needs to be of CSV format")

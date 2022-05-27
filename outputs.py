@@ -22,7 +22,7 @@ class CSVOutput:
         self.count = data.count
         self.output_file = output_file
 
-    def serialise(self):
+    def write(self):
         """outputs customer_data into a CSV file"""
         
         self._transform_data()
@@ -45,7 +45,7 @@ class STDOUTSerialiser:
     def __init__(self, data):
         self.data = data.data
     
-    def serialise(self, *args):
+    def write(self, *args):
         """Outputs column metrics requested by the user"""
         
         for column in args:

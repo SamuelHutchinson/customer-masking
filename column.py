@@ -32,6 +32,8 @@ class NumericColumn(ColumnInterface):
             self.values[i] = average
 
     def _convert_values(self):
+        """Converts all numeric values to float so numeric operations can be performed on it"""
+
         for i in range(len(self.values)):
             try:
                 self.values[i] = float(self.values[i].strip(' ') or 0)
